@@ -1,5 +1,5 @@
 # Arduino-based potentiometer expander for the Akai APC Mini MK2 
-This is a device, that slides on the Akai APC MINI MK2 MIDI controller and adds 9 potentiometers to it as well as a USB port for another device. 
+This is a MIDI controller, that slides on the Akai APC MINI MK2 MIDI controller and adds 9 potentiometers to it as well as a USB port for another device. 
 ![done](https://github.com/adamvotocek/akaiExpander/blob/main/pictures/doneFull.jpg)
 <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiCorner.jpg" alt="akaiCorner" width="460"/> <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiFront.jpg" alt="akaiFront" width="540"/>
 <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiBack.jpg" alt="akaiBack" width="700"/>
