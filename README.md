@@ -4,7 +4,7 @@ This is a device, that slides on the Akai APC MINI MK2 MIDI controller and adds 
 <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiCorner.jpg" alt="akaiCorner" width="460"/> <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiFront.jpg" alt="akaiFront" width="540"/>
 <img src="https://github.com/adamvotocek/akaiExpander/blob/main/pictures/akaiBack.jpg" alt="akaiBack" width="700"/>
 ## Overview
-Currently, I am too lazy to make a full schematic, but this is the overview of what is happening in the device:
+Currently, I am too lazy to make a full schematic (might add it later if anyone gets interested in this project), but this is the overview of what is happening in the device:
 
 The brains of this device is an Arduino Pro Micro board. It senses the potentiometers and sends MIDI signals to the computer, so this is essentialy a standalone MIDI controller that can be used without the APC mini. In order to connect the APC mini and Arduino to the computer through a single USB, there is a custom USB hub on board, which is basically just an SL2.1A chip on a breakout board with a 12MHz crystal and two small 10uF capacitors. This hub can host up to 4 devices so in order to use more of its potential, there is a USB A port on the back of the device for connecting any other USB 2.0 devices. All is housed in a two-part 3D printed case, which is printable on an Ender 3 sized print bed.
 ## Parts
