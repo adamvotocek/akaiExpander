@@ -4,15 +4,16 @@
 #include <Arduino.h>
 #include <MIDIUSB.h>
 
-uint8_t analogPins[9] = {A0, A1, A2, A3, A6, A7, A8, A9, A10};
+#define NUM_POTS 9
+#define FIRST_CC 70
 
-uint8_t firstCC = 70;
+uint8_t analogPins[NUM_POTS] = {A0, A1, A2, A3, A6, A7, A8, A9, A10};
 
-uint8_t midiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-uint8_t lastMidiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-uint8_t secondToLastMidiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t midiValues[NUM_POTS] = {0};
+uint8_t lastMidiValues[NUM_POTS] = {0};
+uint8_t secondToLastMidiValues[NUM_POTS] = {0};
 
-unsigned long midiBounceCounter[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+unsigned long midiBounceCounter[NUM_POTS] = {0};
 uint8_t midiBounceThreshold = 4; // how many times a value bounces between two values before we pick one and stop bouncing
 
 void controlChange(byte channel, byte control, byte value)
@@ -47,9 +48,10 @@ void loop()
 
             if (midiBounceCounter[i] <= midiBounceThreshold)
             {
-                controlChange(0, firstCC + i, midiValues[i]);
+                controlChange(0, FIRST_CC + i, midiValues[i]);
+                
                 Serial.print("CC: ");
-                Serial.print(firstCC + i);
+                Serial.print(FIRST_CC + i);
                 Serial.print(" Value: ");
                 Serial.println(midiValues[i]);
             }
