@@ -8,8 +8,12 @@ uint8_t analogPins[9] = {A0, A1, A2, A3, A6, A7, A8, A9, A10};
 
 uint8_t firstCC = 70;
 
-uint8_t potentiometerValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-uint8_t lastPotentiometerValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t midiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t lastMidiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t secondToLastMidiValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+unsigned long midiBounceCounter[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t midiBounceThreshold = 4; // how many times a value bounces between two values before we pick one and stop bouncing
 
 void controlChange(byte channel, byte control, byte value)
 {
@@ -17,23 +21,38 @@ void controlChange(byte channel, byte control, byte value)
     MidiUSB.sendMIDI(event);
 }
 
-void setup() {
-    //Serial.begin(115200);
+void setup()
+{
+    Serial.begin(115200);
 }
 
 void loop()
 {
     for (int i = 0; i < 9; i++)
     {
-        potentiometerValues[i] = map(analogRead(analogPins[i]), 0, 1023, 0, 127);
-        if (potentiometerValues[i] != lastPotentiometerValues[i])
+        midiValues[i] = map(analogRead(analogPins[i]), 0, 1023, 0, 127);
+
+        if (midiValues[i] != lastMidiValues[i])
         {
-            controlChange(0, firstCC + i, potentiometerValues[i]);
-            // Serial.print("CC: ");
-            // Serial.print(firstCC + i);
-            // Serial.print(" Value: ");
-            // Serial.println(potentiometerValues[i]);
-            lastPotentiometerValues[i] = potentiometerValues[i];
+            if (midiValues[i] == secondToLastMidiValues[i])
+            {
+                midiBounceCounter[i]++;
+            }
+            else
+            {
+                midiBounceCounter[i] = 0;
+            }
+            secondToLastMidiValues[i] = lastMidiValues[i];
+            lastMidiValues[i] = midiValues[i];
+
+            if (midiBounceCounter[i] <= midiBounceThreshold)
+            {
+                controlChange(0, firstCC + i, midiValues[i]);
+                Serial.print("CC: ");
+                Serial.print(firstCC + i);
+                Serial.print(" Value: ");
+                Serial.println(midiValues[i]);
+            }
         }
     }
     MidiUSB.flush();
